@@ -1,6 +1,6 @@
-# C++ 入门笔记：`while` 循环与成绩统计
+# C++ 入门笔记：哨兵控制循环与成绩统计
 
-> 本笔记涵盖 `while` 循环、计数器、累加变量、循环内变量声明及整数除法的注意事项。
+> 本笔记涵盖哨兵控制循环（`while`）、累加器、计数器、条件判断避免除零，以及浮点数输出格式控制（`std::setprecision` 和 `std::fixed`）。
 
 ---
 
@@ -8,24 +8,35 @@
 
 ```cpp
 #include <iostream>
+#include <iomanip>
 
 int main()
 {
-  int total{0};
-  int gradeCounter{1};
+  double total{0.0};
+  int gradeCounter{0};
 
-  while (gradeCounter <= 10)
+  std::cout << "Enter grade or -1 to quit: ";
+  int grade;
+  std::cin >> grade;
+  while (grade != -1)
   {
-    std::cout << "Enter grade: ";
-    int grade;
-    std::cin >> grade;
     total = total + grade;
     gradeCounter = gradeCounter + 1;
+    std::cout << "Enter grade or -1 to quit: ";
+    std::cin >> grade;
   }
 
-  int average{total / 10};
-  std::cout << "\nTotal of all 10 grades is " << total;
-  std::cout << "\nClass average is " << average;
+  if (gradeCounter != 0)
+  {
+    double average{total / gradeCounter};
+    std::cout << "\nTotal of the " << gradeCounter << " grades entered is " << total;
+    std::cout << std::setprecision(2) << std::fixed;
+    std::cout << "\nClass average is " << average;
+  }
+  else
+  {
+    std::cout << "No grades were entered\n";
+  }
 
   return 0;
 }
@@ -35,126 +46,136 @@ int main()
 
 ## 2. 代码逐行解析
 
-### 2.1 头文件与入口
+### 2.1 头文件
 ```cpp
 #include <iostream>   // 标准输入输出流
-int main()            // 程序入口
+#include <iomanip>    // 格式化输入输出（如 setprecision, fixed）
 ```
+- `<iomanip>` 提供了操纵符，用于控制输出的格式，例如设置小数精度、对齐等。
 
 ### 2.2 变量定义与初始化
 ```cpp
-int total{0};          // 用于累加所有成绩
-int gradeCounter{1};   // 循环计数器，从1开始
+double total{0.0};    // 累加器，用 double 存储总和（支持小数）
+int gradeCounter{0};  // 计数器，记录输入的有效成绩个数
 ```
+- 与之前版本不同，`total` 使用 `double` 类型，以支持精确的平均值计算。
+- `gradeCounter` 初始化为 `0`，因为用户可能一开始就输入 `-1` 退出，此时没有有效成绩。
 
-- `total` 通常称为“累加器”（accumulator），用于存储所有输入成绩的和。
-- `gradeCounter` 称为“计数器”（counter），用于控制循环次数，这里从 1 到 10。
-
-### 2.3 `while` 循环结构
+### 2.3 哨兵控制循环（Sentinel-Controlled Loop）
 ```cpp
-while (gradeCounter <= 10)
+std::cout << "Enter grade or -1 to quit: ";
+int grade;
+std::cin >> grade;
+while (grade != -1)
 {
-    // 循环体
+    total = total + grade;
+    gradeCounter = gradeCounter + 1;
+    std::cout << "Enter grade or -1 to quit: ";
+    std::cin >> grade;
 }
 ```
 
-- `while` 循环先判断条件 `gradeCounter <= 10`：
-  - 若为 `true`，执行循环体；
-  - 执行完毕后，返回再次判断条件，直至条件为 `false` 时退出循环。
-- 循环体由一对大括号 `{}` 包围，形成复合语句（代码块）。
+#### 工作原理：
+1. **首轮输入**：在循环外先读取第一个成绩，作为“启动”操作。
+2. **循环条件**：判断输入的值是否为哨兵值（`-1`）。
+   - 若不为 `-1`，则执行循环体：累加、计数器加一，然后再次提示并读取下一个成绩。
+   - 若为 `-1`，则跳过循环，结束输入。
+3. **哨兵值**：`-1` 是一个“标记”，用于终止循环，它本身**不是**有效成绩数据。
+4. **优点**：用户可输入任意数量的成绩，无需事先指定数量，程序灵活。
 
-### 2.4 循环体内操作
+#### 为什么不直接在循环内读取？
+- 如果使用 `do-while` 或 `while(true)` 并在循环内部读取，也可以，但当前设计是经典的“先读后判断”模式，避免了重复代码（但这里确实重复了提示语句，可优化）。
+
+### 2.4 循环后的判断（防止除零）
 ```cpp
-std::cout << "Enter grade: ";
-int grade;
-std::cin >> grade;
-total = total + grade;
-gradeCounter = gradeCounter + 1;
+if (gradeCounter != 0)
+{
+    double average{total / gradeCounter};
+    // 输出...
+}
+else
+{
+    std::cout << "No grades were entered\n";
+}
 ```
+- **关键**：必须检查 `gradeCounter` 是否为零，否则 `total / 0` 会导致**未定义行为**（程序崩溃）。
+- 只有当存在有效成绩时，才计算并输出平均值；否则输出提示信息。
 
-1. **输出提示**：提示用户输入成绩。
-2. **变量 `grade` 声明**：在循环体内声明，意味着每次迭代都会创建一个新的 `grade` 变量，作用域仅限于循环体（块作用域）。
-   > 这比在循环外统一声明更符合“最小作用域”原则，减少错误。
-3. **读取输入**：`std::cin >> grade;` 从键盘读取一个整数存入 `grade`。
-4. **累加**：`total = total + grade;` 把当前成绩加到总和中。
-5. **计数器递增**：`gradeCounter = gradeCounter + 1;` 使计数器加 1，确保循环最终能终止。
-
-### 2.5 循环结束后计算平均值
+### 2.5 输出格式控制
 ```cpp
-int average{total / 10};
-```
-- 这里使用整数除法 `total / 10`，结果会**截断小数部分**（向下取整），只保留整数。
-- 例如：`total = 425`，则 `average = 42`（实际平均值 42.5，但整数除法得到 42）。
-
-### 2.6 输出结果
-```cpp
-std::cout << "\nTotal of all 10 grades is " << total;
+std::cout << std::setprecision(2) << std::fixed;
 std::cout << "\nClass average is " << average;
 ```
-- `\n` 放在字符串开头，使得输出在上一行之后换行。
+- `std::setprecision(2)`：设置浮点数输出精度为 2 位。
+- `std::fixed`：以固定小数位格式输出（即小数点后固定 2 位），而不是科学计数法。
+- 这两个操纵符会持续生效，直到被修改。例如，`average` 将被输出为 `82.40` 而非 `82.4` 或 `8.24e1`。
 
 ---
 
 ## 3. 核心知识点总结
 
-### 3.1 `while` 循环的要素
-| 要素 | 说明 | 本例中 |
-|------|------|--------|
-| **循环变量初始化** | 循环开始前初始化计数器 | `int gradeCounter{1};` |
-| **循环条件** | 决定是否继续执行 | `gradeCounter <= 10` |
-| **循环体** | 重复执行的代码块 | 提示、输入、累加、自增 |
-| **更新计数器** | 避免死循环 | `gradeCounter = gradeCounter + 1;` |
+### 3.1 哨兵控制循环 vs 计数器控制循环
+| 特性 | 计数器控制循环（已知次数） | 哨兵控制循环（未知次数） |
+|------|---------------------------|--------------------------|
+| **循环次数** | 预先确定（如 10 次） | 由用户输入的特殊值决定 |
+| **适用场景** | 固定数量的输入 | 不确定数量的输入，需终止标记 |
+| **示例** | `while (i <= 10)` | `while (grade != -1)` |
+| **危险** | 可能死循环（若未更新计数器） | 需确保哨兵值不会作为正常数据出现 |
 
-### 3.2 累加与计数
-- 累加器 `total` 通常初始化为 `0`。
-- 计数器 `gradeCounter` 决定循环次数，这里从 1 到 10，共 10 次。
-- 也可以从 0 开始，条件改为 `gradeCounter < 10`。
+### 3.2 累加器与计数器的初始化
+- 累加器 `total` 应初始化为 `0`（或 `0.0`）。
+- 计数器 `gradeCounter` 初始化为 `0`，因为循环体只有输入有效成绩时才增加。
 
-### 3.3 变量作用域
-- 在循环体内部声明的变量（如 `grade`），只在循环体内有效，外部无法访问。
-- 这种做法有利于封装和减少命名冲突，是推荐的良好实践。
+### 3.3 避免除零
+- 任何除法运算前，都必须确保分母非零。使用 `if` 判断是标准做法。
 
-### 3.4 整数除法的陷阱
-- `int / int` 结果仍为 `int`，小数部分直接截断，**不四舍五入**。
-- 要获得精确平均值，应使用浮点数类型，例如：
-  ```cpp
-  double average = static_cast<double>(total) / 10;
-  ```
+### 3.4 格式化输出（`<iomanip>`）
+| 操纵符 | 作用 |
+|--------|------|
+| `std::setprecision(n)` | 设置浮点数输出的有效位数（与 `fixed` 配合时表示小数位数） |
+| `std::fixed` | 强制使用定点小数表示法（非科学计数法） |
+| `std::showpoint` | 强制显示小数点（即使没有小数部分） |
+| `std::setw(w)` | 设置字段宽度（用于对齐） |
+
+> **注意**：`std::setprecision` 和 `std::fixed` 会持续影响后续所有浮点数输出，直到再次被修改。
 
 ---
 
 ## 4. 改进建议
 
-### 4.1 使用 `+=` 和 `++` 运算符简化
+### 4.1 使用 `do-while` 减少重复代码
 ```cpp
-total += grade;        // 等价于 total = total + grade
-gradeCounter++;        // 等价于 gradeCounter = gradeCounter + 1
-```
-
-### 4.2 使用 `for` 循环更简洁
-当循环次数已知时，`for` 循环通常更清晰：
-```cpp
-for (int i = 1; i <= 10; i++) {
-    std::cout << "Enter grade: ";
-    int grade;
+int grade;
+do {
+    std::cout << "Enter grade or -1 to quit: ";
     std::cin >> grade;
-    total += grade;
-}
+    if (grade != -1) {
+        total += grade;
+        gradeCounter++;
+    }
+} while (grade != -1);
 ```
+这种结构避免了循环内外的重复提示语句，逻辑更紧凑。
 
-### 4.3 使用浮点数计算平均值
+### 4.2 使用 `+=` 和 `++` 简化
 ```cpp
-double average = static_cast<double>(total) / 10;
-std::cout << "\nClass average is " << average << "\n";
+total += grade;
+gradeCounter++;
 ```
 
-### 4.4 处理无效输入（防错）
-可添加检查，确保输入为有效数字：
+### 4.3 处理无效输入（非数字）
 ```cpp
 if (!(std::cin >> grade)) {
-    std::cout << "Invalid input!\n";
-    return 1;   // 退出程序
+    std::cout << "Invalid input. Exiting.\n";
+    return 1;
 }
+```
+
+### 4.4 支持更多哨兵值
+可将哨兵值定义为常量：
+```cpp
+const int SENTINEL = -1;
+while (grade != SENTINEL) { ... }
 ```
 
 ---
@@ -162,31 +183,33 @@ if (!(std::cin >> grade)) {
 ## 5. 运行示例
 
 ```
-Enter grade: 85
-Enter grade: 92
-Enter grade: 78
-Enter grade: 88
-Enter grade: 95
-Enter grade: 70
-Enter grade: 65
-Enter grade: 82
-Enter grade: 90
-Enter grade: 79
+Enter grade or -1 to quit: 85
+Enter grade or -1 to quit: 92
+Enter grade or -1 to quit: 78
+Enter grade or -1 to quit: 88
+Enter grade or -1 to quit: 95
+Enter grade or -1 to quit: -1
 
-Total of all 10 grades is 824
-Class average is 82
+Total of the 5 grades entered is 438
+Class average is 87.60
+```
+
+**无输入情况**：
+```
+Enter grade or -1 to quit: -1
+No grades were entered
 ```
 
 ---
 
 ## 6. 练习建议
 
-1. **将循环改为 `for` 循环**，比较两种写法的区别。
-2. **修改程序支持任意数量成绩**（比如用户先输入个数，再循环）。
-3. **改用 `double` 计算平均值**，观察输出结果。
-4. **添加最大值和最小值记录**，在循环中更新 `maxGrade` 和 `minGrade`。
-5. **使用 `-1` 作为哨兵值**，当用户输入 `-1` 时结束循环，统计有效成绩个数。
+1. **改写为 `do-while` 循环**，比较两种写法的优缺点。
+2. **添加最大值和最小值跟踪**，在循环中更新 `maxGrade` 和 `minGrade`。
+3. **输出所有成绩（可选）**：使用数组或 `std::vector` 存储输入的成绩，便于后续处理。
+4. **尝试不同精度**：改为 `setprecision(3)` 或 `setprecision(0)`，观察输出变化。
+5. **使用 `std::showpoint`** 强制显示小数点，即使平均值为整数（如 `88.00`）。
 
 ---
 
-**你已经掌握了循环的核心用法，这是编程中最重要的结构之一！继续用循环解决更多问题！** 🚀
+**你已掌握两种常见的循环控制模式，现在可以灵活处理固定次数和任意数量的输入了！继续探索更多有趣的程序吧！** 🚀

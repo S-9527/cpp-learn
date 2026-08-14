@@ -1,4 +1,5 @@
 #include <iostream>
+#include <format>
 
 int main()
 {
@@ -9,7 +10,7 @@ int main()
     total += number;
   }
 
-  std::cout << "sum is " << total;
+  std::cout << std::format("sum is {}", total);
 
   return 0;
 }

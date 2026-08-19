@@ -1,9 +1,8 @@
+#include <cmath>
 #include <format>
 #include <iostream>
-#include <cmath>
 
-int main()
-{
+int main() {
   double principal{1000.00};
   double rate{0.05};
 
@@ -12,8 +11,7 @@ int main()
 
   std::cout << std::format("\n{}{:>20}\n", "Year", "Amount on deposit");
 
-  for (int year{1}; year <= 10; ++year)
-  {
+  for (int year{1}; year <= 10; ++year) {
     double amount{principal * std::pow(1.0 + rate, year)};
     std::cout << std::format("{:>4d}{:>20.2f}\n", year, amount);
   }

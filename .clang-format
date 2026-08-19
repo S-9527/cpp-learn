@@ -1,0 +1,7 @@
+Language: Cpp
+BaseOnStyle: Google
+IndentCaseLabels: true
+BreakBeforeBraces: Attach
+AccessModifierOffset: -2
+PointerAlignment: Left
+NamespaceIndentation: None

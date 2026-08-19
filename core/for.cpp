@@ -1,12 +1,10 @@
-#include <iostream>
 #include <format>
+#include <iostream>
 
-int main()
-{
+int main() {
   int total{0};
 
-  for (int number{2}; number <= 20; number += 2)
-  {
+  for (int number{2}; number <= 20; number += 2) {
     total += number;
   }
 

@@ -2,28 +2,24 @@
 
 int maximum(int x, int y, int z);
 
-int main()
-{
+int main() {
   std::cout << "Enter three integer values: ";
   int int1, int2, int3;
   std::cin >> int1 >> int2 >> int3;
 
-  std::cout << "The maximum integer value is: "
-            << maximum(int1, int2, int3) << '\n';
+  std::cout << "The maximum integer value is: " << maximum(int1, int2, int3)
+            << '\n';
   return 0;
 }
 
-int maximum(int x, int y, int z)
-{
+int maximum(int x, int y, int z) {
   int maximumValue{x};
 
-  if (y > maximumValue)
-  {
+  if (y > maximumValue) {
     maximumValue = y;
   }
 
-  if (z > maximumValue)
-  {
+  if (z > maximumValue) {
     maximumValue = z;
   }
 

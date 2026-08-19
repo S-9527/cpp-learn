@@ -1,7 +1,6 @@
 #include <iostream>
 
-int main()
-{
+int main() {
   std::cout << "welcome to c++" << std::endl;
   return 0;
 }

@@ -17,5 +17,10 @@ int main() {
   std::cout << "z = " << z << " after squareByReference\n";
 }
 
-int squareByValue(int number) { return number *= number; }
-void squareByReference(int& numberRef) { numberRef *= numberRef; }
+int squareByValue(int number) {
+  return number *= number;
+}
+
+void squareByReference(int& numberRef) {
+  numberRef *= numberRef;
+}

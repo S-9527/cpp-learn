@@ -34,4 +34,6 @@ int maximum(int x, int y, int z) {
   return maximumValue;
 }
 
-inline double cube(double side) { return side * side * side; }
+inline double cube(double side) {
+  return side * side * side;
+}

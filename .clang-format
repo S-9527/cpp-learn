@@ -6,3 +6,4 @@ AccessModifierOffset: -2
 PointerAlignment: Left
 NamespaceIndentation: None
 AlwaysBreakTemplateDeclarations: Yes
+AllowShortFunctionsOnASingleLine: None

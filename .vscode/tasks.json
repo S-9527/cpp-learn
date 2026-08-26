@@ -1,0 +1,30 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cmake",
+            "args": ["--build", "build"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "cmake",
+            "args": ["--build", "build", "--clean"],
+            "group": "build"
+        },
+        {
+            "label": "rebuild",
+            "type": "shell",
+            "command": "bash",
+            "args": ["-c", "rm -rf build && mkdir build && cd build && cmake .."],
+            "group": "build"
+        }
+    ]
+}

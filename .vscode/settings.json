@@ -1,12 +1,7 @@
 {
-  "code-runner.executorMap": {
-    "cpp": "cd $dir && g++ -std=c++20 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt"
-  },
-  "[cpp]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools"
-  },
-  "code-runner.runInTerminal": true,
-  "code-runner.saveFileBeforeRun": true,
-  "C_Cpp.default.cppStandard": "c++20",
-  "C_Cpp.clang_format_style": "file"
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.configureArgs": [
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    ],
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }

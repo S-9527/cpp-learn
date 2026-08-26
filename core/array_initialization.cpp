@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main() {
-  std::array<int, 5> values{32, 27, 64, 18, 95}; // braced initializer
+  std::array<int, 5> values{32, 27, 64, 18, 95};  // braced initializer
 
   // output each array element's value
   for (size_t i{0}; i < values.size(); ++i) {

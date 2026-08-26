@@ -7,6 +7,6 @@ namespace myproject {
 
 std::string greet(const std::string& name);
 
-} // namespace myproject
+}  // namespace myproject
 
-#endif // MYPROJECT_H
+#endif  // MYPROJECT_H

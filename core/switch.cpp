@@ -50,12 +50,11 @@ int main() {
   if (gradeCounter != 0) {
     double average{total / gradeCounter};
 
-    std::cout << std::format("Total of the {} grades entered is {}\n",
-                             gradeCounter, total)
+    std::cout << std::format("Total of the {} grades entered is {}\n", gradeCounter, total)
               << std::format("Class average is {:.2f}\n\n", average)
               << "Summary of student's grades:\n"
-              << std::format("A: {}\nB: {}\nC: {}\nD: {}\nF: {}\n", aCount,
-                             bCount, cCount, dCount, fCount);
+              << std::format("A: {}\nB: {}\nC: {}\nD: {}\nF: {}\n", aCount, bCount, cCount, dCount,
+                             fCount);
   } else {
     std::cout << "No grades were entered\n";
   }

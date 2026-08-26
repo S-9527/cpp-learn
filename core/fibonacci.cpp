@@ -5,8 +5,7 @@ long fibonacci(long number);
 
 int main() {
   for (int counter{0}; counter <= 10; ++counter) {
-    std::cout << std::format("fibonacci({}) = {}\n", counter,
-                             fibonacci(counter));
+    std::cout << std::format("fibonacci({}) = {}\n", counter, fibonacci(counter));
   }
 
   std::cout << std::format("\nfibonacci(20) = {}\n", fibonacci(20))

@@ -1,40 +1,40 @@
 #include <iostream>
 using namespace std;
 
-void useLocal();       // function prototype
-void useStaticLocal(); // function prototype
-void useGlobal();      // function prototype
+void useLocal();        // function prototype
+void useStaticLocal();  // function prototype
+void useGlobal();       // function prototype
 
-int x{1}; // global variable
+int x{1};  // global variable
 
 int main() {
   cout << "global x in main is " << x << '\n';
 
-  const int x{5}; // local variable to main
+  const int x{5};  // local variable to main
 
   cout << "local x in main's outer scope is " << x << '\n';
 
-  {                 // block starts a new scope
-    const int x{7}; // hides both x in outer scope and global x
+  {                  // block starts a new scope
+    const int x{7};  // hides both x in outer scope and global x
 
     cout << "local x in main's inner scope is " << x << '\n';
   }
 
   cout << "local x in main's outer scope is " << x << '\n';
 
-  useLocal();       // useLocal has local x
-  useStaticLocal(); // useStaticLocal has static local x
-  useGlobal();      // useGlobal uses global x
-  useLocal();       // useLocal reinitializes its local x
-  useStaticLocal(); // static local x retains its prior value
-  useGlobal();      // global x also retains its prior value
+  useLocal();        // useLocal has local x
+  useStaticLocal();  // useStaticLocal has static local x
+  useGlobal();       // useGlobal uses global x
+  useLocal();        // useLocal reinitializes its local x
+  useStaticLocal();  // static local x retains its prior value
+  useGlobal();       // global x also retains its prior value
 
   cout << "\nlocal x in main is " << x << '\n';
-} // end of main
+}  // end of main
 
 // useLocal reinitializes local variable x during each call
 void useLocal() {
-  int x{25}; // initialized each time useLocal is called
+  int x{25};  // initialized each time useLocal is called
 
   cout << "\nlocal x is " << x << " on entering useLocal\n";
   ++x;
@@ -45,7 +45,7 @@ void useLocal() {
 // first time the function is called; value of x is saved
 // between calls to this function
 void useStaticLocal() {
-  static int x{50}; // initialized first time useStaticLocal is called
+  static int x{50};  // initialized first time useStaticLocal is called
 
   cout << "\nlocal static x is " << x << " on entering useStaticLocal\n";
   ++x;

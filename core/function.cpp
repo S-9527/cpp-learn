@@ -8,15 +8,13 @@ int main() {
   int int1, int2, int3;
   std::cin >> int1 >> int2 >> int3;
 
-  std::cout << "The maximum integer value is: " << maximum(int1, int2, int3)
-            << '\n';
+  std::cout << "The maximum integer value is: " << maximum(int1, int2, int3) << '\n';
 
   double sideValue;
   std::cout << "Enter the side length of your cube: ";
   std::cin >> sideValue;
 
-  std::cout << "Volum of cobe with side " << sideValue << " is "
-            << cube(sideValue) << "\n";
+  std::cout << "Volum of cobe with side " << sideValue << " is " << cube(sideValue) << "\n";
   return 0;
 }
 

@@ -1,6 +1,8 @@
-#include "myproject/myproject.h"
 #include <fmt/format.h>
+
 #include <iostream>
+
+#include "myproject/myproject.h"
 
 int main() {
   fmt::print("{}\n", myproject::greet("World"));

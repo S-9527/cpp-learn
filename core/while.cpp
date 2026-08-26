@@ -17,8 +17,7 @@ int main() {
 
   if (gradeCounter != 0) {
     double average{total / gradeCounter};
-    std::cout << "\nTotal of the " << gradeCounter << " grades entered is "
-              << total;
+    std::cout << "\nTotal of the " << gradeCounter << " grades entered is " << total;
     std::cout << std::setprecision(2) << std::fixed;
     std::cout << "\nClass average is " << average;
   } else {

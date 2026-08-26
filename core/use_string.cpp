@@ -10,8 +10,8 @@ int main() {
   std::cout << "\ns2 " << s2 << " length: " << s2.length();
   std::cout << "\ns3 " << s3 << "length: " << s3.length();
 
-  std::cout << "\nThe result of compare s2 to s1: " << std::boolalpha
-            << "\ns2 == s1 " << (s2 == s1) << "\ns2 != s1 " << (s2 != s1);
+  std::cout << "\nThe result of compare s2 to s1: " << std::boolalpha << "\ns2 == s1 " << (s2 == s1)
+            << "\ns2 != s1 " << (s2 != s1);
 
   std::cout << "\nTesting s3.empty(): \n";
   if (s3.empty()) {

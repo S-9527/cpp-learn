@@ -1,10 +1,17 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build",
-    "cmake.configureArgs": [
-        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-        "-DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake"
-    ],
-    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "editor.formatOnSave": true,
-    "C_Cpp.clang_format_fallbackStyle": "Google"
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "cmake.configureArgs": [
+    "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+    "-DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  ],
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "editor.formatOnSave": true,
+  "C_Cpp.clang_format_fallbackStyle": "Google",
+  "code-runner.executorMap": {
+    "cpp": "cd $dir && g++ -std=c++20 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt"
+  },
+  "code-runner.runInTerminal": true,
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.clearPreviousOutput": true,
+  "code-runner.preserveFocus": false
 }
